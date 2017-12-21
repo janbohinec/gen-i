@@ -31,15 +31,13 @@ def check_passphrase(data):
     vsota = 0
     wrong = 0
     for index, row in data.iterrows():
-        #print(row.values)
         end = False
         for i in range(len(row.values)):
             word = row.values[i]
             for j in range(len(row.values)):
                 word2 = row.values[j]
-                #print(word, word2)
-                #print(is_anagram(word, word2), word, word2)
                 if i != j and is_anagram(word, word2):
+                #if i != j and word == word2: # 1st part
                     wrong += 1
                     end = True
                     break
