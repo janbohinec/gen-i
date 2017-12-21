@@ -5,12 +5,15 @@ Created on Thu Dec  7 20:56:38 2017
 @author: Jan
 """
 
+import numpy as np
 import time
+
 ## Advent of Code 2017, Day 2
         
 
 
 
+t1 = time.time()
 
     
     
