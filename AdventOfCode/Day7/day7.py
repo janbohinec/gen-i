@@ -8,7 +8,6 @@ Created on Fri Dec 23 17:51:22 2017
 
 import numpy as np
 import pandas as pd
-from itertools import count
 import time
 
 ## Advent of Code 2017, Day 7
