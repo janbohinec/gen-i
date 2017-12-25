@@ -17,8 +17,18 @@ data2 = pd.read_excel('day11.xlsx', header=None).values[0][0].split(',')
 
 data = data.read().split(',')
 
-def dist(coords):
-    return int(sum(abs(num) for num in coords)) 
+def distance(x,y):
+    # Take diagonal steps towards self.x == 0
+    steps = abs(x)
+    # y moves closer to 0 by steps because moving diagonal, but never moving too far
+    if y > 0:
+        # Might still be positive, but never negative
+        y = max(y - steps, 0)
+    else:
+        # Might still be negative, but not positive
+        y = min(y + steps, 0)
+    # You move 2 positions north/south by a single move so divide y's by 2
+    return abs(y) // 2 + abs(steps)
 
 def hexEd(data):
     """ Hex Grid Walkover. """
@@ -26,26 +36,25 @@ def hexEd(data):
     max_dist = 0
     for step in data:
         if step == 'n':
-            pos[0] += 1
+            pos[1] += 1
         elif step == 's':
-            pos[0] -= 1
+            pos[1] -= 1
         elif step == 'ne':
-            pos[0] += 0.5
-            pos[1] += 0.5
+            pos[0] += 1
+            pos[1] += 1
         elif step == 'sw':
-            pos[0] -= 0.5
-            pos[1] -= 0.5
+            pos[0] -= 1
+            pos[1] -= 1
         elif step == 'nw':
-            pos[0] += 0.5
-            pos[1] -= 0.5
+            pos[0] += -1
         elif step == 'se':
-            pos[0] -= 0.5
-            pos[1] += 0.5
+            pos[0] += 1 
+
             
-        cur_dist = dist(pos)
+        cur_dist = distance(pos[0], pos[1])
         max_dist = cur_dist if cur_dist > max_dist else max_dist
         
-    #print(max_dist)
+    print(max_dist)
     return pos, cur_dist
      
 
