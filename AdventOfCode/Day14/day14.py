@@ -14,14 +14,20 @@ import time
 day = 14
 
 #data = open('day13.txt', 'r')
+test = 'flqrgnkx'
 inpt = 'hwlqcszp' 
+N = 128
 
-
+def used_squares(inpt):
+    """ Counts used squares. """
+    st = 0
+    return st
 
 t1 = time.time()
 print("***  It's Advent of Code 2017, Day {}!  ***\n".format(day))
 print('First part:')
-
+print(used_squares(test))
+print(used_squares(inpt))
 
 print('Second part:')
 
