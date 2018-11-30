@@ -1,4 +1,4 @@
 # gen-i
-Work related GEN-I stuff
+Work related GEN-I repository.
 
-Firstly I want to test repository with Spyder IDE.
+
