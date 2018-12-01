@@ -22,7 +22,12 @@ if __name__ == '__main__':
     print("***  It's Advent of Code 2018, Day {}!  ***\n".format(day))
     print('First part:')
 
-    data = open('day2.txt', 'r')
+    #data = open('day2.txt', 'r')
+    #string = data.readline()
+    data = pd.read_excel('day2.xlsx', header=None)  
+    
+    for idx, row in data.iterrows():
+        print(row.loc[1], max(row), min(row))
     
 
     

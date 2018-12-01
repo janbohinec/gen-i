@@ -20,7 +20,7 @@ if __name__ == '__main__':
     
     t1 = time.time()
     print("***  It's Advent of Code 2018, Day {}!  ***\n".format(day))
-    print('First part:')
+    print('** First part:')
 
     freq = 0
     data = open('day1.txt', 'r')
@@ -31,14 +31,14 @@ if __name__ == '__main__':
 
     print(freq)
     
-    print('Second part:')
+    print('** Second part:')
 
     freq = 0
     found = False
+    loop_cnt = 0
     
     dict_freq = {freq: 1}
     while not found:
-        
         data = open('day1.txt', 'r')
         for line in data:
             freq += int(line)
@@ -50,6 +50,8 @@ if __name__ == '__main__':
                 dict_freq[freq] = 1
         if found:
             break
+        loop_cnt += 1
+    print(loop_cnt)
     
     t2 = time.time()
     print('Program run for  {0} sec.'.format(round(t2-t1,2)))
