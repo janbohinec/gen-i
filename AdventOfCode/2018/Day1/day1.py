@@ -23,10 +23,10 @@ if __name__ == '__main__':
     print('First part:')
 
     freq = 0
-    file_obj = open('day1.txt', 'r')
+    data = open('day1.txt', 'r')
     
     dict_freq = [0]
-    for line in file_obj:
+    for line in data:
         freq += int(line)
 
     print(freq)
@@ -35,14 +35,12 @@ if __name__ == '__main__':
 
     freq = 0
     found = False
-    file_obj = open('day1.txt', 'r')
     
-    dict_freq = {0: 1}
-    
+    dict_freq = {freq: 1}
     while not found:
         
-        file_obj = open('day1.txt', 'r')
-        for line in file_obj:
+        data = open('day1.txt', 'r')
+        for line in data:
             freq += int(line)
             if freq in dict_freq:
                 print(freq)
