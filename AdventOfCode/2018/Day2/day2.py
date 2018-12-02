@@ -15,26 +15,61 @@ import datetime as dt
 day = 2
 
 
-
 if __name__ == '__main__':
     
     t1 = time.time()
     print("***  It's Advent of Code 2018, Day {}!  ***\n".format(day))
-    print('First part:')
+    print('** First part:')
 
-    #data = open('day2.txt', 'r')
-    #string = data.readline()
-    data = pd.read_excel('day2.xlsx', header=None)  
+    data = open('day2.txt', 'r')
     
-    for idx, row in data.iterrows():
-        print(row.loc[1], max(row), min(row))
-    
+    dic = {}
+    for line in data:
+        temp_dic = {}
+        for char in line:
+            if char in temp_dic.keys():
+                temp_dic[char] += 1
+            else:
+                temp_dic[char] = 1
+        temp_dic = list(set(temp_dic.values()))
+        for i in temp_dic:
+            if i > 1:
+                if i in dic.keys():
+                    dic[i] += 1
+                else:
+                    dic[i] = 1
+
+    res = 1
+    for cnt in dic.values():
+        res *= cnt
 
     
-    print('Second part:')
-
-   
+    print('Silver star answer: \n{0}'.format(res))
     
+    print('** Second part:')
+    
+    data = open('day2.txt', 'r')
+
+    string = []
+    for line in data:
+        string += [line]
+    for line in string:
+        for line2 in string:
+            cnt = 0
+            if line != line2:
+                for i in range(len(line)):
+                    if line2[i] != line[i]:
+                        cnt += 1
+            if cnt == 1:
+                print(line, line2)
+                res = ''
+                for i in range(len(line)):
+                    if line2[i] == line[i]:
+                        res += line[i]
+                break
+
+    
+    print('Golden star answer: \n{0}'.format(res))
     t2 = time.time()
     print('Program run for  {0} sec.'.format(round(t2-t1,2)))
 

@@ -5,7 +5,6 @@ Created on Fri Nov 30 20:42:22 2018
 @author: Jan
 """
 
-
 import numpy as np
 import pandas as pd
 import time
@@ -13,8 +12,6 @@ import datetime as dt
 
 ## Advent of Code 2018, Day 1
 day = 1
-
-
 
 if __name__ == '__main__':
     
@@ -29,7 +26,7 @@ if __name__ == '__main__':
     for line in data:
         freq += int(line)
 
-    print(freq)
+    print('Silver star answer: \n{0}'.format(freq))
     
     print('** Second part:')
 
@@ -43,7 +40,7 @@ if __name__ == '__main__':
         for line in data:
             freq += int(line)
             if freq in dict_freq:
-                print(freq)
+                print('Golden star answer: \n{0}'.format(freq))
                 found = True
                 break
             else:
