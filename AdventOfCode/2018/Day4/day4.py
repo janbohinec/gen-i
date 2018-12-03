@@ -11,8 +11,8 @@ import pandas as pd
 import time
 import datetime as dt
 
-## Advent of Code 2018, Day 3
-day = 3
+## Advent of Code 2018, Day 4
+day = 4
 
 
 if __name__ == '__main__':
@@ -21,21 +21,10 @@ if __name__ == '__main__':
     print("***  It's Advent of Code 2018, Day {0}!  ***\n".format(day))
     print('** First part:')
     
-    with open('day3.txt', 'r') as f:
+    with open('day4.txt', 'r') as f:
         data = [line.strip() for line in f.readlines()]
 
-    dim = 1024
-    arr = np.zeros((dim, dim))
-    
-    for claim in data:
-        # Parsing
-        id, _, pos, size = claim.split(' ')
-        row, col = (int(x) for x in pos[:-1].split(','))
-        side1, side2 = [int(x) for x in size.split('x')]
-    
-        arr[row:row + side1, col:col + side2] += 1
-    
-    res = (arr > 1).sum()
+    res = 0
    
     #string = data.readline()
     #data = pd.read_excel('day2.xlsx', header=None)  
@@ -46,15 +35,7 @@ if __name__ == '__main__':
     
     print('** Second part:')
     
-    for claim in data:
-        # Parsing
-        id, _, pos, size = claim.split(' ')
-        row, col = (int(x) for x in pos[:-1].split(','))
-        side1, side2 = [int(x) for x in size.split('x')]
-    
-        if arr[row:row + side1, col:col + side2].sum() == side1 * side2:
-            res = id
-            break
+
 
     
     print('Golden star answer: \n{0}'.format(res))
