@@ -18,7 +18,7 @@ day = 3
 if __name__ == '__main__':
     
     t1 = time.time()
-    print("***  It's Advent of Code 2018, Day {}!  ***\n".format(day))
+    print("***  It's Advent of Code 2018, Day {0}!  ***\n".format(day))
     print('** First part:')
 
     data = open('day3.txt', 'r')
