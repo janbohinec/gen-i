@@ -20,25 +20,35 @@ if __name__ == '__main__':
     print("***  It's Advent of Code 2018, Day {0}!  ***\n".format(day))
     print('** First part:')
     
-    with open('day6.txt', 'r') as f:
+    with open('day{0}.txt'.format(day), 'r') as f:
         data = [line.strip() for line in f.readlines()]
     
-    dim = 352
+    dim = 0 # Getting the max dim of the problem
+    for line in data:
+        gx, gy = (int(x) for x in line.split(','))
+        if gx > dim:
+            dim = gx
+        if gy > dim:
+            dim = gy
+    #print(dim)
+
     arr = np.zeros((dim, dim))
     
-    def dist(x1,y1,x2,y2):
+    def dist(x1, y1, x2, y2):
+        """ Return Manhattan distance of points (x1,y1) and (x2, y2) """
         return abs(x1-x2) + abs(y1-y2)
     
-    for x in range(len(arr)):
-        for y in range(len(arr)):
+    for x in range(dim):
+        for y in range(dim):
             min_dist = 1024
             guard_idx = 1024
             min_dist2 = 1024
             for idx, guard in enumerate(data):
-                gx, gy = (int(x) for x in guard.split(','))    
-                if dist(x, y, gx, gy) <= min_dist:
+                gx, gy = (int(x) for x in guard.split(','))  
+                cur_dist = dist(x, y, gx, gy)
+                if cur_dist <= min_dist:
                     min_dist2 = min_dist
-                    min_dist = dist(x,y,gx,gy)
+                    min_dist = cur_dist
                     guard_idx = idx + 1 # because 0 no claim
             if min_dist != min_dist2:
                 arr[x][y] = guard_idx
@@ -50,7 +60,6 @@ if __name__ == '__main__':
         if counts[i] > max_area and ele[i] not in arr[0,:] and ele[i] not in arr[-1,:] and ele[i] not in arr[:,0] and ele[i] not in arr[:, -1]: # area not on edge
             max_area = counts[i]
 
-    res = 0
     print('Silver star answer: \n{0}'.format(max_area))
     
     print('** Second part:')
