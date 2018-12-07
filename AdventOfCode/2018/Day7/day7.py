@@ -41,6 +41,17 @@ def find_path(graph, start, end, path=[]):
             if newpath: return newpath
     return None
 
+def next_task():
+    possible = []
+    for key in steps.keys():
+        if len(steps[key]) == 0:
+            possible.append(key)
+    for worker in workers:
+        if worker[0] in possible:
+            possible.remove(worker[0]) # We're working on it
+    if len(possible) == 0:
+        return None
+    return min(possible)
 
 
 if __name__ == '__main__':
@@ -102,9 +113,54 @@ if __name__ == '__main__':
     print('Silver star answer: \n{0}'.format(path))
     
     print('** Second part:')
+    import string
     
-    res = 0
-    print('Golden star answer: \n{0}'.format(res))
+    steps = {x: [] for x in string.ascii_uppercase} # only works if all chars in alphabeth are in the task lists
+
+    with open('day{0}.txt'.format(day), 'r') as f:
+        data = f.readlines()
+            
+    for line in data:
+        elements = line.split(' ')
+        steps[elements[-3]].append(elements[1])
+    
+    path = ''
+    time_spent = -1 # first step is at 0
+    workers = [['', 0] for k in range(5)] # [Task, time_when_finish]
+    
+    while len(steps.keys()) != 0:
+        #print(workers)
+
+        time_spent += 1
+        if all([(worker[1] > time_spent) for worker in workers]):  # everyone working
+            continue
+
+        for worker in workers:
+            if worker[0] != '' and worker[1] <= time_spent:
+                key = worker[0]
+                worker[0] = ''
+                worker[1] = 0
+                
+                
+                for task_key in steps.keys(): # removing tasks
+                    if key in steps[task_key]:
+                        steps[task_key].remove(key)
+
+                if len(steps[key]) == 0 and key in path: # delete task in steps
+                    steps.pop(key, None)
+                    continue
+        
+        for worker in workers:
+            if worker[1] <= time_spent:
+                next_element = next_task()
+                if next_element is None or next_element in path:
+                    continue
+                path += next_element
+                worker[0] = next_element
+                worker[1] = time_spent + 60 + 1 + string.ascii_uppercase.index(next_element)
+
+    print(path)
+    print('Golden star answer: \n{0}'.format(time_spent))
     t2 = time.time()
     print('Program run for  {0} sec.'.format(round(t2-t1,2)))
 
