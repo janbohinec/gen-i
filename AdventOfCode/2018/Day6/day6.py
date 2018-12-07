@@ -20,7 +20,7 @@ if __name__ == '__main__':
     print("***  It's Advent of Code 2018, Day {0}!  ***\n".format(day))
     print('** First part:')
     
-    with open('day6.txt', 'r') as f:
+    with open('day{0}.txt'.format(day), 'r') as f:
         data = [line.strip() for line in f.readlines()]
     
     dim = 352
