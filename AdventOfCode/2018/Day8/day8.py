@@ -70,21 +70,16 @@ if __name__ == '__main__':
             counts, value = recursive_value(sequence[pos:])    
             pos += counts
             metadata.append(value)
-        print(metadata)
                 
         if no_childs > 0:
             for j in sequence[pos:pos + no_metas]:
-                #print(j, metadata)
-                if j == 0:
-                    continue
-                try:
-                    total += metadata[j-1]
-                except:
-                    pass
+                 if j == 0:
+                     continue
+                 if j-1 < len(metadata):
+                     total += metadata[j-1]
         else:
             total += sum(sequence[pos:pos + no_metas])
             
-
         return pos + no_metas, total
             
     pos = 0
