@@ -141,7 +141,6 @@ if __name__ == '__main__':
                 worker[0] = ''
                 worker[1] = 0
                 
-                
                 for task_key in steps.keys(): # removing tasks
                     if key in steps[task_key]:
                         steps[task_key].remove(key)
