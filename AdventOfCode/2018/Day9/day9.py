@@ -38,14 +38,13 @@ if __name__ == '__main__':
     circle = [0]
     player = 1
     current_marble_pos = 0
+    
     while marble <= last_marble:
-        #print(player, marble)
         if marble % 23 == 0:
             current_marble_pos -= 7
             if current_marble_pos < 0:
                 current_marble_pos = len(circle) + current_marble_pos
             scores[player] += marble + circle[current_marble_pos]
-            #print('score', marble, player, circle[current_marble_pos])
             circle = circle[:current_marble_pos] + circle[current_marble_pos + 1:]
 
         else:    
@@ -82,7 +81,6 @@ if __name__ == '__main__':
     circle[0] = [1, 1] # left, right neighbour
     circle[1] = [0, 0] # left, right neighbour
     
-    
     while marble <= last_marble:
         if marble % 23 == 0:
             for i in range(7):
@@ -109,7 +107,6 @@ if __name__ == '__main__':
             player = 1
       
     max_score = max(scores.items(), key=operator.itemgetter(1))[1]
-   
     
     print('Golden star answer: \n{0}'.format(max_score))
     t2 = time.time()
