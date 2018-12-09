@@ -79,19 +79,19 @@ if __name__ == '__main__':
     player = 2
     current_marble = 1
     circle = defaultdict(int)
-    circle[0] = [1, 1]
-    circle[1] = [0, 0]
+    circle[0] = [1, 1] # left, right neighbour
+    circle[1] = [0, 0] # left, right neighbour
     
     
     while marble <= last_marble:
         if marble % 23 == 0:
-            current_marble = circle[circle[circle[circle[circle[circle[circle[current_marble][0]][0]][0]][0]][0]][0]][0]
-            #print('score', current_marble)
+            for i in range(7):
+                current_marble = circle[current_marble][0]
             
             scores[player] += marble + current_marble 
             to_remove = current_marble
 
-            current_marble = circle[current_marble][1]
+            current_marble = circle[current_marble][1] # move one right
             circle[current_marble][0] = circle[to_remove][0] # update left neighbour 
             circle[circle[to_remove][0]][1] = circle[to_remove][1] # update right neighbour
             circle[to_remove] = [-1, -1] 
