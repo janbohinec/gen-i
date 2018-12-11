@@ -5,14 +5,11 @@ Created on Fri Nov 30 20:42:22 2018
 @author: Jan
 """
 
-
 import numpy as np
 import pandas as pd
 import time
 import datetime as dt
-import re
-import matplotlib.pyplot as plt
-from scipy import sparse
+
 
 ## Advent of Code 2018, Day 11
 day = 11
@@ -33,7 +30,7 @@ if __name__ == '__main__':
         powerLvl = rackID * y
         powerLvl += gridSerial
         powerLvl *= rackID
-        if powerLvl > 100:
+        if powerLvl >= 100:
             powerLvl = int(str(powerLvl)[-3])
         else:
             powerLvl = 0
@@ -41,8 +38,7 @@ if __name__ == '__main__':
     
     #print(powerLvl(3,5,8))    
     #print(powerLvl(122,79,57))  
-    #print(powerLvl(217,196,39)) 
-    #print(powerLvl(101,153,71)) 
+
     
     for i in range(dim):
         for j in range(dim):
