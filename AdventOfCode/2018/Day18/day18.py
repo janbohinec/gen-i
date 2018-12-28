@@ -40,7 +40,6 @@ if __name__ == '__main__':
     charar = np.chararray((n, n))
     with open('day{0}.txt'.format(day), 'r') as f:
         i = 0
-        
         for line in f.readlines():
             charar[i] = list(map(str, line.strip()))
             i += 1
