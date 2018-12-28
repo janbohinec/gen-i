@@ -157,7 +157,7 @@ if __name__ == '__main__':
             break
    
     n = register2[2] # int number that is being factorized
-    total = 0 # computing when it stops
+    total = 0 # computing when it stops, you can do the same for part 1
     for i in range(1, n + 1):
         if n % i == 0:
             total += i
