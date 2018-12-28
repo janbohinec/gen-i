@@ -111,16 +111,12 @@ if __name__ == '__main__':
     with open('day{0}.txt'.format(day), 'r') as f:
         for line in f.readlines():
             row = line.strip().split()
-            
             data += [[row[0]] + list(map(int, row[1:]))]
             
-    
     ip_register = 3
     register = [0, 0, 0, 0, 0, 0]    
     
-    
     ip = 0
-    
     while ip >= 0 and ip < len(data):
         register[ip_register] = ip
     
@@ -141,7 +137,6 @@ if __name__ == '__main__':
     
     ip = 0
     st = 0
-    
     while ip >= 0 and ip < len(data):
         register2[ip_register] = ip
         
