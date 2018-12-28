@@ -14,7 +14,6 @@ import datetime as dt
 ## Advent of Code 2018, Day 16
 day = 16
 
-
 ## Aux Functions
 
 # r - register
