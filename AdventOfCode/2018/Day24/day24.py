@@ -27,7 +27,7 @@ if __name__ == '__main__':
     if not prod:
         test = 'Test'
         
-    boost = 83
+    boost = 83 # 83 battle doesn't end, 84 it does, immune system wins
     print('Boost: ', boost)
       
     with open('day{0}immune{1}.txt'.format(day, test), 'r') as f:
@@ -84,7 +84,6 @@ if __name__ == '__main__':
     
     #print(system) # initial state
     
-    
     system['Target'] = None
     system['TargetDamage'] = None
     system['Selected'] = 0
@@ -99,14 +98,12 @@ if __name__ == '__main__':
     rnd  = 0
     
     while len(infectionActiveUnits) > 0 or len(immuneActiveUnits) > 0:
-    #while rnd < 1:
         # one army targeting
         for idx, unitAttacking in infectionActiveUnits.iterrows():
             maxDamage = 0
             maxEffPower = 0
             maxInitiative = -1
             for idx_, unitDefending in immuneActiveUnits.iterrows():
-                #print(unitInf.AttackType, unitImmune.Weakness, unitImmune.Immunity)
                 if unitDefending.Selected == 1:# Target already selected
                     #print('Target already selected')
                     damage = 0
@@ -189,7 +186,6 @@ if __name__ == '__main__':
         system['Target'] = None
         system['TargetDamage'] = None
         system['Selected'] = 0
-        #system['EffPower'] = system['Attack'] * system['CurUnits']
     
         # target Selection
         infectionActiveUnits = system[(system.Army == 'Infection') & (system.CurUnits > 0)].sort_values(by=['EffPower', 'Initiative'], ascending=False)
@@ -203,17 +199,13 @@ if __name__ == '__main__':
             print(rnd, len(infectionActiveUnits), len(immuneActiveUnits), infectionActiveUnits.CurUnits.sum(), immuneActiveUnits.CurUnits.sum())
             break
         
-        
-    res = 0
     
-    print('Silver star answer: \n{0}'.format(res))
+    print('Silver star answer: \n{0}'.format(0))
     
     print('** Second part:')
     
     
-   
-    
-    print('Golden star answer: \n{0}'.format(res))
+    print('Golden star answer: \n{0}'.format(0))
     t2 = time.time()
     print('Program run for  {0} sec.'.format(round(t2-t1,2)))
 
