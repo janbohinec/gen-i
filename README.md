@@ -1,4 +1,4 @@
 # gen-i
-Work related GEN-I repository.
+Personal public work repository.
 
 
