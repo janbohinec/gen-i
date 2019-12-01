@@ -10,46 +10,43 @@ import pandas as pd
 import time
 import datetime as dt
 
-## Advent of Code 2019, Day 1
+## Advent of Code 2019
 day = 1
 year = 2019
 
+def day_str(day):
+    """ Return string from integer day. """
+    return str(day) if day >= 10 else '0' + str(day)
+    
 if __name__ == '__main__':
     
     t1 = time.time()
     print("***  It's Advent of Code {1}, Day {0}!  ***\n".format(day, year))
+    #### 1st Task
     print('** First part:')
-
-    freq = 0
-    data = open('day01.txt', 'r')
     
-    dict_freq = [0]
+    fuel = 0
+    
+    with open('day{0}.txt'.format(day_str(day)), 'r') as f:
+        data = [line.strip() for line in f.readlines()]
+    
     for line in data:
-        freq += int(line)
-
-    print('Silver star answer: \n{0}'.format(freq))
+        fuel += int(line)//3 - 2
+    print(fuel)
     
+    #### 2nd Task
     print('** Second part:')
-
-    freq = 0
-    found = False
-    loop_cnt = 0
     
-    dict_freq = {freq: 1}
-    while not found:
-        data = open('day01.txt', 'r')
-        for line in data:
-            freq += int(line)
-            if freq in dict_freq:
-                print('Golden star answer: \n{0}'.format(freq))
-                found = True
-                break
-            else:
-                dict_freq[freq] = 1
-        if found:
-            break
-        loop_cnt += 1
-    #print(loop_cnt)
+    fuel = 0
+    
+    for line in data:
+        temp = int(line)//3 - 2
+        fuel += temp
+        while temp >= 0:
+            temp = int(temp)//3 - 2
+            if temp > 0:
+                fuel += temp
+    print(fuel)
     
     t2 = time.time()
     print('Program run for  {0} sec.'.format(round(t2 - t1, 2)))
