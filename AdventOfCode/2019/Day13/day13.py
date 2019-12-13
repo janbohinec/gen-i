@@ -61,8 +61,10 @@ if __name__ == '__main__':
             else: # left
                 return [0,1]
     
+    
+    hist = []
     def intcode(inpt):
-        
+        global hist
         relative_base = 0
         i = 0
         output = 0
@@ -99,18 +101,11 @@ if __name__ == '__main__':
                 rr[rr[i+3] + offset] = param(i+1, modes[-1], relative_base) * param(i+2, modes[-2], relative_base)
                 step = 4
             elif code == 3: # copy
-                rr[rr[i+1] + offset] = inpt[0]
-                print('input') 
-                # where does the ball go
-                dir_x = ballx - prev_ball_x 
-                dir_y = bally - prev_ball_y
-
-                next_x = ballx + dir_x
-                next_y = bally + dir_y
+                # where does the ball go next?
+                next_x = ballx + (ballx - prev_ball_x)
+                next_y = bally + (bally - prev_ball_y)
                 if (next_x, next_y) in map_.keys() and map_[(next_x, next_y)] in (1,2):
-                    print('change dir')
-                    next_x = ballx - 2*dir_x
-                    #next_y = bally - dir_y
+                    next_x = ballx
                 
                 if paddlex < next_x:
                     rr[rr[i+1] + offset] = +1    
@@ -119,7 +114,6 @@ if __name__ == '__main__':
                 step = 2
             elif code == 4: # output
                 output = param(i+1, modes[-1],  relative_base)
-                #print(output)
                 if meaning == 3 and output == 2:
                     block_cnt += 1
                 if meaning == 1:
@@ -129,19 +123,20 @@ if __name__ == '__main__':
                 if meaning == 3:
                     tileID = output
                     if x == -1 and y == 0:
-                        print('New score: {0}'.format(output))
+                        #print('New score: {0}'.format(output))
                         last_score = output
                     else:
                         map_[(x,y)] = tileID
                         if tileID == 4: # Its a ball
                             prev_ball_x, prev_ball_y = ballx, bally
                             ballx, bally = x, y
+                            hist += [map_.copy()]
                             # where is ball?
-                            print('Ball: ({0},{1})'.format(ballx, bally))    
+                            #print('Ball: ({0},{1})'.format(ballx, bally))    
                         elif tileID == 3: # its a paddle
                             paddlex, paddley = x, y
                             # where is paddle?
-                            print('Paddle: ({0},{1})'.format(paddlex, paddley))
+                            #print('Paddle: ({0},{1})'.format(paddlex, paddley))
                     
                 meaning += 1
                 if meaning == 4:
@@ -177,48 +172,35 @@ if __name__ == '__main__':
             elif code == 99:
                 break #stop
                 
-                           
-                
             i += step
-    
-        print(block_cnt)
+
         return map_, block_cnt, ballx, bally, paddlex, paddley, last_score
     
     
-    map_ = intcode(0)
+    map_, block_cnt, ballx, bally, paddlex, paddley, last_score = intcode(0)
+    print(block_cnt)
 
 
     #### 2nd Task
     print('** Second part:')
     
     
-    rr[0] = 2
-    block = 10**2
-    steps = 0
-    instructions = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    rr[0] = 2 # play for free
     
     import matplotlib.pyplot as plt
     
-    while steps < 1:
-        map_, blocks, ballx, bally, paddlex, paddley, last_score = intcode(instructions)
-        # where is paddle?
-        #print('Paddle: ({0},{1})'.format(paddlex, paddley))
-        # where is ball?
-        #print('Ball: ({0},{1})'.format(ballx, bally))
-        
-        
-        if steps % 500 == 0:
-            a = [[0 for i in range(40)] for k in range(40)]
-            for pos in map_.keys():
-                a[pos[0]][pos[1]] = map_[pos]
+    map_, blocks, ballx, bally, paddlex, paddley, last_score = intcode(0)
+    print(last_score)
     
-            plt.figure(steps)
-            plt.imshow(a)
-    
-        steps += 1
-    
-    
-    
+    # See the game
+    a = [[0 for i in range(40)] for k in range(40)]
+
+
+    for pos in hist[0].keys():
+        a[pos[1]][pos[0]] = hist[0][pos]
+
+    plt.imshow(a)
+       
     
     
     
