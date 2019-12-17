@@ -10,6 +10,7 @@ import pandas as pd
 import time
 import datetime as dt
 from collections import defaultdict
+import matplotlib.pyplot as plt
 
 
 ## Advent of Code 2019
@@ -78,7 +79,7 @@ if __name__ == '__main__':
         global hist
         relative_base = 0
         i = 0
-        output = 0
+
 
         input_ = 0
         history = []
@@ -107,28 +108,14 @@ if __name__ == '__main__':
                 rr[rr[i+3] + offset] = param(i+1, modes[-1], relative_base) * param(i+2, modes[-2], relative_base)
                 step = 4
             elif code == 3: # input
-                print(input_)
-                rr[rr[i+1] + offset] = input_
+                print('Input', inpt[0])
+                rr[rr[i+1] + offset] = inpt.pop(0)
                 step = 2
             elif code == 4: # output
                 output = param(i+1, modes[-1],  relative_base)
-                #print('Output ', output, input_)
+                #if output > 150:
+                print('Output', output)
                 history += [output]
-# =============================================================================
-# =============================================================================
-# #                 moves += 1
-# #                 x_next, y_next = move(x,y,input_)
-# #                 if output == 2: # found repair spot
-# #                     map_[(x_next,y_next)] = 5
-# #                     print('Found repair spot!')
-# #                     x, y = x_next, y_next
-# #                 elif output == 1: #moved
-# #                     map_[(x_next,y_next)] = output
-# #                     x, y = x_next, y_next
-# #                 elif output == 0: # hit the wall, same location
-# #                    map_[(x_next,y_next)] = 3 
-# =============================================================================
-# =============================================================================
                 step = 2 
             elif code == 5: # jump if true
                 if param(i+1, modes[-1], relative_base) != 0:
@@ -163,12 +150,12 @@ if __name__ == '__main__':
             i += step
             
             
-            
+    
         return history
     
     
-    lab = intcode(0)
-    import matplotlib.pyplot as plt
+    lab = intcode([0])
+    
     
     lab2 = []
     temp = []
@@ -190,21 +177,72 @@ if __name__ == '__main__':
         for y in range(len(lab2[0])):
             if x > 0 and y > 0 and x < 38 and y < 28 and  lab2[x][y] == 35:
                 if lab2[x+1][y] == 35 and lab2[x-1][y] == 35 and lab2[x][y+1] == 35 and lab2[x][y-1] == 35:
-                    print('Intersections ', x, y)
+                    #print('Intersections ', x, y)
                     score += x*y
     print(score)
 
-    
     
    
 
     #### 2nd Task
     print('** Second part:')
-    
-  
        
     
+    def to_ascii(char):
+        return ord(char)
     
+    def from_ascii(value):
+        return chr(value)
+    
+    def to_ascii_string(string):
+        return [ord(s) for s in string]
+    
+    
+    def create_program():
+        
+        # R10 R10 R6 R4 R10 R10 L4 R10 R10 R6 R4 R4 L4 L10 L10 R10 R10 R6 R4 R10 R10 L4 R4 L4 L10 L10 R10 R10 L4 R4 L4 L10 L10 R10 R10 L4
+        
+        # R10 R10 R6 R4 
+        # R10 R10 L4 
+        # R10 R10 R6 R4 
+        # R4 L4 L10 L10 
+        # R10 R10 R6 R4 
+        # R10 R10 L4 
+        # R4 L4 L10 L10 
+        # R10 R10 L4 
+        # R4 L4 L10 L10 
+        # R10 R10 L4
+        
+        # A - R10 R10 R6 R4 
+        # B - R10 R10 L4 
+        # A - R10 R10 R6 R4 
+        # C - R4 L4 L10 L10 
+        # A - R10 R10 R6 R4 
+        # B - R10 R10 L4 
+        # C - R4 L4 L10 L10 
+        # B - R10 R10 L4 
+        # C - R4 L4 L10 L10 
+        # B - R10 R10 L4
+      
+
+        prog_a = "R,10,R,10,R,6,R,4\n"
+        prog_b = "R,10,R,10,L,4\n"
+        prog_c = "R,4,L,4,L,10,L,10\n"
+        prog_main = "A,B,A,C,A,B,C,B,C,B\n"
+        program = (
+            to_ascii_string(prog_main)
+            + to_ascii_string(prog_a)
+            + to_ascii_string(prog_b)
+            + to_ascii_string(prog_c)
+            + to_ascii_string("n\n")
+        )
+        return program
+    
+    
+    rr[0] = 2 # wake up
+    program = create_program()
+    lab = intcode(program)
+
     
     
     t2 = time.time()
