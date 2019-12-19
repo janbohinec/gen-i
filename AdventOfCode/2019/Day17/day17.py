@@ -10,6 +10,7 @@ import pandas as pd
 import time
 import datetime as dt
 from collections import defaultdict
+import matplotlib.pyplot as plt
 
 
 ## Advent of Code 2019
@@ -73,7 +74,6 @@ if __name__ == '__main__':
             x += 1
         return x, y
     
-    hist = []
     def intcode(inpt):
         global hist
         relative_base = 0
@@ -112,23 +112,7 @@ if __name__ == '__main__':
                 step = 2
             elif code == 4: # output
                 output = param(i+1, modes[-1],  relative_base)
-                #print('Output ', output, input_)
                 history += [output]
-# =============================================================================
-# =============================================================================
-# #                 moves += 1
-# #                 x_next, y_next = move(x,y,input_)
-# #                 if output == 2: # found repair spot
-# #                     map_[(x_next,y_next)] = 5
-# #                     print('Found repair spot!')
-# #                     x, y = x_next, y_next
-# #                 elif output == 1: #moved
-# #                     map_[(x_next,y_next)] = output
-# #                     x, y = x_next, y_next
-# #                 elif output == 0: # hit the wall, same location
-# #                    map_[(x_next,y_next)] = 3 
-# =============================================================================
-# =============================================================================
                 step = 2 
             elif code == 5: # jump if true
                 if param(i+1, modes[-1], relative_base) != 0:
@@ -162,13 +146,10 @@ if __name__ == '__main__':
                 
             i += step
             
-            
-            
         return history
     
     
     lab = intcode(0)
-    import matplotlib.pyplot as plt
     
     lab2 = []
     temp = []
@@ -178,7 +159,6 @@ if __name__ == '__main__':
                 lab2 += [temp]
             temp = []
         else:
-            
             temp += [cord]
     
     # See the game
@@ -186,11 +166,11 @@ if __name__ == '__main__':
     
   
     score = 0
-    for x in range(len(lab2)):
-        for y in range(len(lab2[0])):
-            if x > 0 and y > 0 and x < 38 and y < 28 and  lab2[x][y] == 35:
+    for x in range(1, len(lab2) - 1):
+        for y in range(1, len(lab2[0]) - 1):
+            if lab2[x][y] == 35:
                 if lab2[x+1][y] == 35 and lab2[x-1][y] == 35 and lab2[x][y+1] == 35 and lab2[x][y-1] == 35:
-                    print('Intersections ', x, y)
+                    #print('Intersection ', x, y)
                     score += x*y
     print(score)
 
