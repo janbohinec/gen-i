@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 
 ## Advent of Code 2019
-day = 17
+day = 19
 year = 2019
 
 def day_str(day):
@@ -78,7 +78,7 @@ if __name__ == '__main__':
         global hist
         relative_base = 0
         i = 0
-
+        output = 0
 
         input_ = 0
         history = []
@@ -107,11 +107,12 @@ if __name__ == '__main__':
                 rr[rr[i+3] + offset] = param(i+1, modes[-1], relative_base) * param(i+2, modes[-2], relative_base)
                 step = 4
             elif code == 3: # input
-                print('Input', inpt[0])
+                #print('input', inpt)
                 rr[rr[i+1] + offset] = inpt.pop(0)
                 step = 2
             elif code == 4: # output
                 output = param(i+1, modes[-1],  relative_base)
+                #print(output)
                 history += [output]
                 step = 2 
             elif code == 5: # jump if true
@@ -146,97 +147,59 @@ if __name__ == '__main__':
                 
             i += step
             
-
         return history
     
     
-    lab = intcode(0)
-
-    
-    lab2 = []
-    temp = []
-    for cord in lab:   
-        if cord == 10: #new line
-            if len(temp) > 0:
-                lab2 += [temp]
-            temp = []
-        else:
-            temp += [cord]
-    
-    # See the game
-    plt.imshow(lab2)
-    
+ 
+    #lab_ = intcode(0)
   
-    score = 0
-    for x in range(1, len(lab2) - 1):
-        for y in range(1, len(lab2[0]) - 1):
-            if lab2[x][y] == 35:
-                if lab2[x+1][y] == 35 and lab2[x-1][y] == 35 and lab2[x][y+1] == 35 and lab2[x][y-1] == 35:
-                    score += x*y
-    print(score)
-
     
-   
+    rr_orig = defaultdict(lambda: 0, zip(range(len(data[0])),(int(r) for r in data[0])))
+    score = 0
+    N = 1200
+    map_ = [[0 for x in range(N)] for y in range(N)]
+    N_size = 10
+    for row in range(N):
+        for col in range(N):
+            if row > col:
+                continue
+            if col > row * 1.6:
+                continue
+            rr = rr_orig.copy()
+            temp = intcode([row, col])
+            if temp[0] == 1:
+                score += 1
+                if intcode([row+N_size, col+N_size])[0] == 1 and intcode([row, col+N_size])[0] == 1 and intcode([row+N_size, col])[0] == 1:
+                    print('Found', row, col)
+                    found = True
+                    break
+            map_[row][col] = temp[0]
+    
+    print(score)
+            
+    plt.imshow(map_)
 
+    map_ = np.array(map_)
     #### 2nd Task
     print('** Second part:')
-       
+    found = False
+    N_ship = 100
+    for col in range(N-N_ship):
+        beam_width = sum(map_[:,col])
+        #print(col, beam_width)
+        if beam_width >= N_ship:
+            for row in range(N - N_ship):
+                beam_depth = sum(map_[row,:])
+                if beam_depth >= N_ship:
+                    if sum(sum(map_[row:row+N_ship, col:col+N_ship])) == N_ship**2:
+                        found = True
+                        break
+        if found:
+            break
     
-    def to_ascii(char):
-        return ord(char)
-    
-    def from_ascii(value):
-        return chr(value)
-    
-    def to_ascii_string(string):
-        return [ord(s) for s in string]
-    
-    
-    def create_program():
         
-        # R10 R10 R6 R4 R10 R10 L4 R10 R10 R6 R4 R4 L4 L10 L10 R10 R10 R6 R4 R10 R10 L4 R4 L4 L10 L10 R10 R10 L4 R4 L4 L10 L10 R10 R10 L4
-        
-        # R10 R10 R6 R4 
-        # R10 R10 L4 
-        # R10 R10 R6 R4 
-        # R4 L4 L10 L10 
-        # R10 R10 R6 R4 
-        # R10 R10 L4 
-        # R4 L4 L10 L10 
-        # R10 R10 L4 
-        # R4 L4 L10 L10 
-        # R10 R10 L4
-        
-        # A - R10 R10 R6 R4 
-        # B - R10 R10 L4 
-        # A - R10 R10 R6 R4 
-        # C - R4 L4 L10 L10 
-        # A - R10 R10 R6 R4 
-        # B - R10 R10 L4 
-        # C - R4 L4 L10 L10 
-        # B - R10 R10 L4 
-        # C - R4 L4 L10 L10 
-        # B - R10 R10 L4
-      
-
-        prog_a = "R,10,R,10,R,6,R,4\n"
-        prog_b = "R,10,R,10,L,4\n"
-        prog_c = "R,4,L,4,L,10,L,10\n"
-        prog_main = "A,B,A,C,A,B,C,B,C,B\n"
-        program = (
-            to_ascii_string(prog_main)
-            + to_ascii_string(prog_a)
-            + to_ascii_string(prog_b)
-            + to_ascii_string(prog_c)
-            + to_ascii_string("n\n")
-        )
-        return program
+    print(row * 10000 + col)
     
-    
-    rr[0] = 2 # wake up
-    program = create_program()
-    lab = intcode(program)
-
     
     
     t2 = time.time()
