@@ -25,7 +25,6 @@ if __name__ == '__main__':
     #### 1st Task
     print('** First part:')
     
-    target = 2020
     
     with open('day{0}.txt'.format(day_str(day)), 'r') as f:
         data = [line.strip().split(' ') for line in f.readlines()]
