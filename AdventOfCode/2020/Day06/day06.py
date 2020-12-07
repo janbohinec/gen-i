@@ -68,12 +68,10 @@ if __name__ == '__main__':
     
     
     # Alternative solution part 2
-    
     answers = 0
     for line in data:
-        people_cnt = len(line.split('\n'))
         for letter in set(line.replace('\n', '')):
-            if line.count(letter) == people_cnt:
+            if line.count(letter) == len(line.split('\n')):
                 answers += 1
     print(answers)
         
