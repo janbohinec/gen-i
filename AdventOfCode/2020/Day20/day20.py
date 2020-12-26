@@ -51,7 +51,7 @@ if __name__ == '__main__':
         tiles_input[tile_num] = tile_sep
 
 
-    def calc_tile(tiled, tile_borders, dimension, x=0, y=0, found=set()):
+    def calc_tile(tiled, tile_borders, dimension, x = 0, y = 0, found = set()):
         
         if y == dimension:
             return tiled
@@ -157,7 +157,7 @@ if __name__ == '__main__':
         return tile_options, calc_tile(tiled, tile_possible_borders, dimension)
     
 
-    combnations, image = image(tiles_input)
+    combinations, image = image(tiles_input)
 
     mul = 1
     mul *= image[0][0][0]
@@ -170,9 +170,75 @@ if __name__ == '__main__':
     #### 2nd Task
     print('** Second part:')
     
-        
-   
+    # Sea Monsters
+    
+    monster = """                  # \n#    ##    ##    ###\n #  #  #  #  #  #   """
 
+    monster = monster.split('\n')
+    for k in range(len(monster)):
+        monster[k] = [1 if x=='#' else 0 for x in monster[k]]
+    
+
+    image_size = len(image)    
+    mat = np.array([[0 for i in range(8*image_size)] for j in range(8*image_size)])
+           
+    
+    for y, image_y in enumerate(image):
+        for x, image_x in enumerate(image_y):
+            tile = combinations[image_x[0]][image_x[1]]
+            tile = np.array(tile).T
+            temp_image_2 = []
+            for row in tile[1:-1]:
+                temp_image_2 += [[1 if z=='#' else 0 for z in row[1:-1]]]
+              
+            mat[y*8:(y+1)*8, x*8:(x+1)*8] = temp_image_2       
+
+        
+    # create image, without edges
+    plt.matshow(mat)
+    plt.matshow(monster)
+    
+    monster_cnt = 0
+    i = 0
+    while monster_cnt == 0:
+        # Try finding monsters
+        for row in range(len(mat)-2):
+            for col in range(len(mat)-len(monster[0])):
+                found = True
+                for monster_row in range(len(monster)):
+                    for monster_col in range(len(monster[0])):
+                        if monster[monster_row][monster_col] == 1:
+                            if mat[row + monster_row, col + monster_col] != 1:
+                                found = False
+                                break
+                    if not found:
+                        break
+    
+                if found:
+                    monster_cnt += 1
+                    
+                    for monster_row in range(len(monster)):
+                        for monster_col in range(len(monster[0])):
+                            if monster[monster_row][monster_col] == 1:
+                                mat[row + monster_row, col + monster_col] = 2
+        
+        if monster_cnt == 0:    
+            if i == 3:
+                mat = np.flip(mat, 0)
+            else:
+                mat = np.array(list(list(x)[::-1] for x in zip(*mat))) # matrix rotation right 
+    
+        i += 1
+        
+    print('Monster counter: {0}'.format(monster_cnt))
+    
+    
+    plt.matshow(mat)
+    
+
+    # count # / 1s
+    print(np.count_nonzero(mat == 1))
+    
 
     t2 = time.time()
     print('Program run for  {0} sec.'.format(round(t2 - t1, 2)))
